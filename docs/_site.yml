@@ -35,7 +35,7 @@ output:
     toc_float:
       collapsed: false
     toc_depth: 2
-    theme: cerulean
+    theme: united 
     highlight: textmate
     include:
       after_body: footer.html

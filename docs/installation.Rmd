@@ -48,11 +48,11 @@ Once you have installed [R], we should verify that you have the correct version.
 ### Workshop Materials
 
 Our [workshop materials] is a zip file that contains a folder called 
-`IntroR-master/` with the folowing structure:
+`IntroRNCAPS-master/` with the folowing structure:
 
 ```
 .
-├── IntroR.Rproj
+├── IntroRNCAPS.Rproj
 ├── LICENSE
 ├── Makefile
 ├── Part1-Introduction.R
@@ -84,6 +84,6 @@ install.packages(c("tidyverse", "agricolae"), repos = "https://cran.rstudio.com"
 [stat545]: http://stat545.com/block000_r-rstudio-install.html
 [R]: https://cloud.r-project.org/
 [RStudio]: https://www.rstudio.com/products/rstudio/download/
-[Workshop Materials]: https://github.com/everhartlab/IntroR/archive/master.zip
+[Workshop Materials]: https://github.com/everhartlab/IntroRNCAPS/archive/master.zip
 [agricolae]: http://tarwi.lamolina.edu.pe/~fmendiburu/
 [tidyverse]: http://tidyverse.org/

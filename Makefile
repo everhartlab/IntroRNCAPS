@@ -14,7 +14,7 @@ docs/index.Rmd : README.md
 docs/data.Rmd : data/README.md
 	cat docs/data.txt $< > $@
 
-docs/%.Rmd : %.R docs/knitopts.R
+docs/%.Rmd : %.R docs/knitopts.R docs/footer.html docs/_site.yml
 	cat docs/knitopts.R $< | sed "s_^\# _\#\' _" > docs/$<
 	R --slave -e "knitr::spin('docs/$<', knit = FALSE)"
 	$(RM) docs/$<
