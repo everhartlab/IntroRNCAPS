@@ -56,7 +56,7 @@ These scripts follow these conventions:
 
 
 
-The website located at http://everhartlab.github.io/IntroRNCAPS can be build via the
+The website located at http://everhartlab.github.io/IntroRNCAPS/ can be build via the
 `make` program:
 
 ```make
