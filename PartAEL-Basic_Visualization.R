@@ -12,10 +12,10 @@ plot(fungicide.tidy$Severity~fungicide.tidy$Julian.Date, xlab = "Julian Date", y
 # Make a simple X-Y graph, where the symbols differ for "control" and "fungicide"
 # Alex: fix this, get this to work, and add a legend
 color.vector <- rep("purple", nrow(fungicide.tidy))
-color.vector[which(fungicide.tidy$Experiment == "control" )] = "red"
+color.vector[which(fungicide.tidy$Experiment == "control" )] <- "red"
 
 symbol.vector <- rep(25, nrow(fungicide.tidy))
-symbol.vector[which(fungicide.tidy$Experiment == "control" )] = 24
+symbol.vector[which(fungicide.tidy$Experiment == "control" )] <- 24
 
 plot(fungicide.tidy$Severity~fungicide.tidy$Julian.Date, xlab = "Julian Date", ylab = "Disease Severity", main = "Disease Severity",
      cex.lab = 1.5, cex.main = 2, col = color.vector, pch = symbol.vector)
