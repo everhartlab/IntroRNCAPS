@@ -1,6 +1,3 @@
-#Set the working director
-setwd("/Users/adminuser/Desktop/Work/Outreach_Conferences_2017/R_workshop/IntroRNCAPS-master")
-
 #Read in "fungicide.tidy"
 fungicide.tidy <- read.csv("data/Fungicide.Tidy.csv", head = TRUE)
 
