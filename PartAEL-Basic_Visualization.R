@@ -1,5 +1,5 @@
 # Read in "fungicide.tidy"
-fungicide.tidy <- read.csv("data/Fungicide.Tidy.csv", head = TRUE)
+fungicide.tidy <- read.csv("data/FungicideTidy.csv", head = TRUE)
 
 # Make a simple X-Y graph
 plot(fungicide.tidy$Severity~fungicide.tidy$Julian.Date)
