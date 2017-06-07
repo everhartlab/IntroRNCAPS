@@ -22,7 +22,7 @@ plot(fungicide.tidy$Severity~fungicide.tidy$Julian.Date, xlab = "Julian Date", y
 legend("topleft", col = c("purple", "red"), pch = c(25,24), legend = c("Fungicide", "Control"))
 
 
-#Sort the data by severity. This will help make some of the plots below prettier.
+# Sort the data by severity. This will help make some of the plots below prettier.
 fungicide.tidy <- fungicide.tidy[order(fungicide.tidy$Severity),]
 
 # Show how to have two side-by-side plots
@@ -62,7 +62,7 @@ pdf("results/Disease.Severity.Fungicide.vs.Control.histogram.like.pdf", width = 
        cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, type = "h")
 dev.off()
 
-#Reset par at the end so that none of the bells and whistles specified in previous graphs are carried foward to the next graph
+# Reset par at the end so that none of the bells and whistles specified in previous graphs are carried foward to the next graph
 par()
 
 
