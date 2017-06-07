@@ -26,7 +26,7 @@ legend("topleft", col = c("purple", "red"), pch = c(25,24), legend = c("Fungicid
 # Show how to have two side-by-side plots
 fungicide.tidy.fungicide <- fungicide.tidy[which(fungicide.tidy$Experiment != "control" ),]
 fungicide.tidy.control <- fungicide.tidy[which(fungicide.tidy$Experiment == "control" ),]
-pdf("Disease.Severity.Fungicide.vs.Control.pdf", width = 12)
+pdf("results/Disease.Severity.Fungicide.vs.Control.pdf", width = 12)
   par(mfrow = c(1,2), mar = c(5,5,5,5), lab = c(5,5,7))
   plot(fungicide.tidy.fungicide$Severity~fungicide.tidy.fungicide$Julian.Date, xlab = "Julian Date", ylab = "Disease Severity", main = "Fungicide",
        cex.lab = 1.5, cex.main = 2, col = "purple", pch = 25)
@@ -36,7 +36,7 @@ dev.off()
 # Show the other visual ways things can be plotted (e.g., dots, versus lines connecting the dots versus both versus horizontal lines)
 
 # Change the symbols to lines
-pdf("Disease.Severity.Fungicide.vs.Control.lines.pdf", width = 12)
+pdf("results/Disease.Severity.Fungicide.vs.Control.lines.pdf", width = 12)
   par(mfrow = c(1,2), mar = c(5,5,5,5), lab = c(5,5,7))
   plot(fungicide.tidy.fungicide$Severity~fungicide.tidy.fungicide$Julian.Date, xlab = "Julian Date", ylab = "Disease Severity", main = "Fungicide",
        cex.lab = 1.5, cex.main = 2, col = "purple", pch = 25, type = "l")
@@ -45,7 +45,7 @@ pdf("Disease.Severity.Fungicide.vs.Control.lines.pdf", width = 12)
 dev.off()
 
 # Change the symbols to  points and lines
-pdf("Disease.Severity.Fungicide.vs.Control.points.and.lines.pdf", width = 12)
+pdf("results/Disease.Severity.Fungicide.vs.Control.points.and.lines.pdf", width = 12)
   par(mfrow = c(1,2), mar = c(5,5,5,5), lab = c(5,5,7))
   plot(fungicide.tidy.fungicide$Severity~fungicide.tidy.fungicide$Julian.Date, xlab = "Julian Date", ylab = "Disease Severity", main = "Fungicide",
        cex.lab = 1.5, cex.main = 2, col = "purple", pch = 25, type = "b")
@@ -54,7 +54,7 @@ pdf("Disease.Severity.Fungicide.vs.Control.points.and.lines.pdf", width = 12)
 dev.off()
 
 # Change the symbols so that they are "histogram-like"
-pdf("Disease.Severity.Fungicide.vs.Control.histogram.like.pdf", width = 12)
+pdf("results/Disease.Severity.Fungicide.vs.Control.histogram.like.pdf", width = 12)
   par(mfrow = c(1,2), mar = c(5,5,5,5), lab = c(5,5,7))
   plot(fungicide.tidy.fungicide$Severity~fungicide.tidy.fungicide$Julian.Date, xlab = "Julian Date", ylab = "Disease Severity", main = "Fungicide",
        cex.lab = 1.5, cex.main = 2, col = "purple", pch = 25, type = "h")
