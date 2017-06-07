@@ -296,10 +296,10 @@ div.tocify {
       <a href="Part1-Introduction.html">Part 1: Introduction to R</a>
     </li>
     <li>
-      <a href="Part2-Analysis.html">Part 2: First Analysis</a>
+      <a href="Part2-Analysis.html">Part 2: First Analysis and Reshaping Data</a>
     </li>
     <li>
-      <a href="Part3-Visualization.html">Part 3: Reshaping and Visualization</a>
+      <a href="Part99-ggplot2Visualization.html">Bonus: Visualization with ggplot2</a>
     </li>
   </ul>
 </li>
@@ -369,9 +369,11 @@ div.tocify {
 <p>If you’ve downloaded and un-zipped this directory to your desktop, you might see something like <code>/Users/&lt;yourname&gt;/Desktop/IntroR</code>. This is the default place where R will begin reading and writing files. For example, you can use the function <code>list.files()</code> to view the files in your current working directory. These are the same files that we downloaded earlier. If you’re using Rstudio, you can compare the file list with the “Files” tab in the bottom right panel.</p>
 <p>In order to use <code>list.files()</code>, we should provide it with a file path. We can provide it a “.”, which means “here” to most computer programs.</p>
 <pre class="r"><code>&gt; list.files(&quot;.&quot;)</code></pre>
-<pre><code>[1] &quot;data&quot;                  &quot;docs&quot;                  &quot;IntroRNCAPS.Rproj&quot;    
-[4] &quot;LICENSE&quot;               &quot;Makefile&quot;              &quot;Part1-Introduction.R&quot; 
-[7] &quot;Part2-Analysis.R&quot;      &quot;Part3-Visualization.R&quot; &quot;README.md&quot;            </code></pre>
+<pre><code>[1] &quot;data&quot;                          &quot;docs&quot;                         
+[3] &quot;IntroRNCAPS.Rproj&quot;             &quot;LICENSE&quot;                      
+[5] &quot;Makefile&quot;                      &quot;Part1-Introduction.R&quot;         
+[7] &quot;Part2-Analysis.R&quot;              &quot;Part99-ggplot2Visualization.R&quot;
+[9] &quot;README.md&quot;                    </code></pre>
 <p>You can see that the first entry in here is “data”. This is where we’ve placed the fungicide example data.</p>
 <pre class="r"><code>&gt; list.files(&quot;data&quot;)</code></pre>
 <pre><code>[1] &quot;FungicideExample.csv&quot; &quot;README.md&quot;           </code></pre>
@@ -541,7 +543,295 @@ Jagger 0.04463333 0.023521053</code></pre>
 <pre class="r"><code>&gt; dir.create(&quot;results&quot;)
 &gt; write.table(fungicide.res, file = &quot;results/audpc.csv&quot;, sep = &quot;,&quot;, 
 +             col.names = NA,
-+             row.names = TRUE)</code></pre>
++             row.names = TRUE)
+&gt; #</code></pre>
+</div>
+<div id="part-iv-an-alternative-approachtidy-data" class="section level2">
+<h2>Part IV: An alternative approach–Tidy Data</h2>
+<p>Imagine for a second that, instead of one control and one treatment for each cultivar, that we had one control and two treatments. Without the <code>Julian.Date</code> column, the dimensions of our data frame would be 9 X 9.</p>
+<p>What would happen if we had tried the <code>audpc()</code> function on that matrix? It would have given us an answer, <em>but not the correct one</em>.</p>
+<p>One solution to this would be to standardize the data format so that we have one observation per row. Our data, for example, might look something like this truncated example:</p>
+<pre><code>  Experiment Julian.Date                  Cultivar Severity
+1    control         139 TwentyOneThirtySevenWheat     2.34
+2    control         146 TwentyOneThirtySevenWheat     7.56
+3    control         154 TwentyOneThirtySevenWheat    28.78
+4    control         139               CutterWheat     1.15
+5    control         146               CutterWheat     3.62
+6    control         154               CutterWheat    17.89
+7    control         139               JaggerWheat     1.85
+8    control         146               JaggerWheat     6.92
+9    control         154               JaggerWheat    47.39
+10 treatment         139 TwentyOneThirtySevenWheat     1.81
+11 treatment         146 TwentyOneThirtySevenWheat     7.89
+12 treatment         154 TwentyOneThirtySevenWheat    15.04
+13 treatment         139               CutterWheat     1.79
+14 treatment         146               CutterWheat     2.40
+15 treatment         154               CutterWheat     6.21
+16 treatment         139               JaggerWheat     2.27
+17 treatment         146               JaggerWheat     5.00
+18 treatment         154               JaggerWheat    20.17</code></pre>
+<p>The advantages here is that, when you look at the data, it is immediately clear what all the values mean, because each column represents either measured data or metadata.</p>
+<p>This data format is known by many names, including an un-pivot table and long data. We will be referring to this as “tidy” data. Now we could go into a spreadsheet program and reshape the data ourselves, but why should we do that when we know:</p>
+<ol style="list-style-type: decimal">
+<li>Tasks like this are monotonous</li>
+<li>Humans are prone to mistakes with monotonous tasks</li>
+<li>Computers are best at doing monotonous tasks</li>
+</ol>
+<p>If we use R to reshape our data, we can keep a track record of what we did to it! Luckily, in the past few years, a suite of packages have come out explicitly designed to deal with tidy data frames aptly called the “tidyverse”. If you are taking this as a workshop, you should have downloaded this package beforehand. Otherwise, please download it now.</p>
+<p>The tidyverse is a package that loads several packages dealing with tidy data including:</p>
+<ul>
+<li>ggplot2, for data visualisation.</li>
+<li><strong>dplyr</strong>, for data manipulation.</li>
+<li><strong>tidyr</strong>, for data tidying.</li>
+<li>readr, for data import.</li>
+<li>purrr, for functional programming.</li>
+<li>tibble, for tibbles, a modern re-imagining of data frames.</li>
+</ul>
+<p>For details, see <a href="https://tidyverse.tidyverse.org" class="uri">https://tidyverse.tidyverse.org</a></p>
+<pre class="r"><code>&gt; library(&quot;tidyverse&quot;)</code></pre>
+<pre><code>Loading tidyverse: ggplot2
+Loading tidyverse: tibble
+Loading tidyverse: tidyr
+Loading tidyverse: readr
+Loading tidyverse: purrr
+Loading tidyverse: dplyr</code></pre>
+<pre><code>Conflicts with tidy packages ----------------------------------------------</code></pre>
+<pre><code>filter(): dplyr, stats
+lag():    dplyr, stats</code></pre>
+<p>There are several ways of creating the tidy data frame; we will show one here, but there are others that are worth exploring on your own.</p>
+<p>The process we will demonstrate takes three steps:</p>
+<ol style="list-style-type: decimal">
+<li>subset control and treatment data into separate data frames</li>
+<li>collect each record into a single row with the <em>tidyr</em> function <code>gather()</code> (This is also known as “unpivot” in Excel: <a href="http://www.excel-university.com/unpivot-excel-data/" class="uri">http://www.excel-university.com/unpivot-excel-data/</a>).</li>
+<li>combine the two data frames and create a new column called “Experiment” with the <em>dplyr</em> function <code>bind_rows()</code></li>
+</ol>
+<div id="step-1-subset-data" class="section level3">
+<h3>Step 1: Subset data</h3>
+<p>Subset control and treatmend data into separate data frames. Since we have a data frame, we will use matrix-like subsetting.</p>
+<pre class="r"><code>&gt; control   &lt;- fungicide[, c(1, 2, 4, 6)]
+&gt; treatment &lt;- fungicide[, c(1, 3, 5, 7)]</code></pre>
+<p>Now we have two separate data frames with 4 columns each, but still we have three observations per row.</p>
+<pre class="r"><code>&gt; stop(&quot;
++       Would this approach work for a different data set? Why or why not?
++      &quot;)</code></pre>
+<pre><code>Error in eval(expr, envir, enclos): 
+      Would this approach work for a different data set? Why or why not?
+     </code></pre>
+</div>
+<div id="step-2-tidy-data" class="section level3">
+<h3>Step 2: Tidy data</h3>
+<p>Now that we have our experiments in separate tables, we can reshape each table into tidy format by using <em>tidyr</em>’s <code>gather()</code>. This will “gather” all of the data that are spread across columns into single rows. Users of excel might be familiar with this operation as “unpivot”.</p>
+<p>In order to do this, we will need to specify three things:</p>
+<ul>
+<li>A new column name to specify where the data came from (key)</li>
+<li>A new column name to specify what the data represents (value)</li>
+<li>The columns to include (or exclude)</li>
+</ul>
+<p>I often find the key/value syntax confusing and have to look at the examples in the help page for <code>gather()</code>.</p>
+<pre class="r"><code>&gt; stop(&quot;
++       Look at the examples for gather and determine what the names of the
++       key and value columns should be for our data.
++       (hint: you can use example(gather) to run them automatically).
++     &quot;)</code></pre>
+<pre><code>Error in eval(expr, envir, enclos): 
+      Look at the examples for gather and determine what the names of the
+      key and value columns should be for our data.
+      (hint: you can use example(gather) to run them automatically).
+    </code></pre>
+<p>Now that we have our keys and values, we can plug them into <code>gather()</code>.</p>
+<blockquote>
+<p>Note, however, this uses “bare” names (names that are not between quotation marks) to specify columns. This is a feature of the tidyverse to make typing easier, but does not necessarily work outside of the tidyverse.</p>
+</blockquote>
+<p>To avoid typing all of the columns we want to collapse, we’ll simply specify the column that we don’t want to collapse, which is Julian.Date. This is done by placing a minus (-) symbol in front of it.</p>
+<pre class="r"><code>&gt; con.tidy &lt;- gather(data = control, key = Cultivar, value = Severity, -Julian.Date)
+&gt; con.tidy</code></pre>
+<pre><code>   Julian.Date                  Cultivar Severity
+1           97 TwentyOneThirtySevenWheat     0.00
+2          104 TwentyOneThirtySevenWheat     0.00
+3          111 TwentyOneThirtySevenWheat     0.00
+4          118 TwentyOneThirtySevenWheat     0.00
+5          125 TwentyOneThirtySevenWheat     0.00
+6          132 TwentyOneThirtySevenWheat     0.00
+7          139 TwentyOneThirtySevenWheat     2.34
+8          146 TwentyOneThirtySevenWheat     7.56
+9          154 TwentyOneThirtySevenWheat    28.78
+10          97               CutterWheat     0.00
+11         104               CutterWheat     0.00
+12         111               CutterWheat     0.00
+13         118               CutterWheat     0.00
+14         125               CutterWheat     0.00
+15         132               CutterWheat     0.00
+16         139               CutterWheat     1.15
+17         146               CutterWheat     3.62
+18         154               CutterWheat    17.89
+19          97               JaggerWheat     0.00
+20         104               JaggerWheat     0.00
+21         111               JaggerWheat     0.00
+22         118               JaggerWheat     0.00
+23         125               JaggerWheat     0.00
+24         132               JaggerWheat     0.00
+25         139               JaggerWheat     1.85
+26         146               JaggerWheat     6.92
+27         154               JaggerWheat    47.39</code></pre>
+<p>Note that we can easily get back our original data by using the <code>spread()</code> function, which is the opposite of <code>gather()</code>:</p>
+<pre class="r"><code>&gt; spread(data = con.tidy, key = Cultivar, value = Severity)</code></pre>
+<pre><code>  Julian.Date CutterWheat JaggerWheat TwentyOneThirtySevenWheat
+1          97        0.00        0.00                      0.00
+2         104        0.00        0.00                      0.00
+3         111        0.00        0.00                      0.00
+4         118        0.00        0.00                      0.00
+5         125        0.00        0.00                      0.00
+6         132        0.00        0.00                      0.00
+7         139        1.15        1.85                      2.34
+8         146        3.62        6.92                      7.56
+9         154       17.89       47.39                     28.78</code></pre>
+<p>This was simply to demonstrate that with tidy data, it’s possible to reshape it in most any way possible.</p>
+<p>Now we can tidy our treatment data. But first, because we want to combine this data with our control, we want to make sure that the values in the “Cultivar” column are the same. Currently we have the following columns in our treatment data.</p>
+<pre class="r"><code>&gt; colnames(treatment)</code></pre>
+<pre><code>[1] &quot;Julian.Date&quot;                   &quot;TwentyOneThirtySevenWheat.trt&quot;
+[3] &quot;CutterWheat.Trt&quot;               &quot;JaggerWheat.Trt&quot;              </code></pre>
+<p>If we take a look at these column names, we can see that they all end in .Trt, except for the second column, which ends in .trt. Because R is case-sensitive, it will see .trt and .Trt as two different things. To avoid this problem, we will simply replace the column names of the treatment to those of the control.</p>
+<pre class="r"><code>&gt; colnames(control)</code></pre>
+<pre><code>[1] &quot;Julian.Date&quot;               &quot;TwentyOneThirtySevenWheat&quot;
+[3] &quot;CutterWheat&quot;               &quot;JaggerWheat&quot;              </code></pre>
+<pre class="r"><code>&gt; colnames(treatment) &lt;- colnames(control)
+&gt; treatment</code></pre>
+<pre><code>  Julian.Date TwentyOneThirtySevenWheat CutterWheat JaggerWheat
+1          97                      0.00        0.00        0.00
+2         104                      0.00        0.00        0.00
+3         111                      0.00        0.00        0.00
+4         118                      0.00        0.00        0.00
+5         125                      0.00        0.00        0.00
+6         132                      0.00        0.00        0.00
+7         139                      1.81        1.79        2.27
+8         146                      7.89        2.40        5.00
+9         154                     15.04        6.21       20.17</code></pre>
+<p>Now we can tidy our treatment data.</p>
+<pre class="r"><code>&gt; trt.tidy &lt;- gather(data = treatment, key = Cultivar, value = Severity, -Julian.Date)</code></pre>
+</div>
+<div id="step-3-combining-experiments" class="section level3">
+<h3>Step 3: combining experiments</h3>
+<p>We can combine the treatments by using the <em>dplyr</em> function <code>bind_rows()</code>, which takes any number of data frames and places them on top of one another. It takes an optional argument, <code>.id</code> (note the “.”) that specifies a separate column to create identifying the source data frame.</p>
+<pre class="r"><code>&gt; fungicide.tidy &lt;- bind_rows(control = con.tidy, fungicide = trt.tidy, .id = &quot;Experiment&quot;)
+&gt; fungicide.tidy</code></pre>
+<pre><code>   Experiment Julian.Date                  Cultivar Severity
+1     control          97 TwentyOneThirtySevenWheat     0.00
+2     control         104 TwentyOneThirtySevenWheat     0.00
+3     control         111 TwentyOneThirtySevenWheat     0.00
+4     control         118 TwentyOneThirtySevenWheat     0.00
+5     control         125 TwentyOneThirtySevenWheat     0.00
+6     control         132 TwentyOneThirtySevenWheat     0.00
+7     control         139 TwentyOneThirtySevenWheat     2.34
+8     control         146 TwentyOneThirtySevenWheat     7.56
+9     control         154 TwentyOneThirtySevenWheat    28.78
+10    control          97               CutterWheat     0.00
+11    control         104               CutterWheat     0.00
+12    control         111               CutterWheat     0.00
+13    control         118               CutterWheat     0.00
+14    control         125               CutterWheat     0.00
+15    control         132               CutterWheat     0.00
+16    control         139               CutterWheat     1.15
+17    control         146               CutterWheat     3.62
+18    control         154               CutterWheat    17.89
+19    control          97               JaggerWheat     0.00
+20    control         104               JaggerWheat     0.00
+21    control         111               JaggerWheat     0.00
+22    control         118               JaggerWheat     0.00
+23    control         125               JaggerWheat     0.00
+24    control         132               JaggerWheat     0.00
+25    control         139               JaggerWheat     1.85
+26    control         146               JaggerWheat     6.92
+27    control         154               JaggerWheat    47.39
+28  fungicide          97 TwentyOneThirtySevenWheat     0.00
+29  fungicide         104 TwentyOneThirtySevenWheat     0.00
+30  fungicide         111 TwentyOneThirtySevenWheat     0.00
+31  fungicide         118 TwentyOneThirtySevenWheat     0.00
+32  fungicide         125 TwentyOneThirtySevenWheat     0.00
+33  fungicide         132 TwentyOneThirtySevenWheat     0.00
+34  fungicide         139 TwentyOneThirtySevenWheat     1.81
+35  fungicide         146 TwentyOneThirtySevenWheat     7.89
+36  fungicide         154 TwentyOneThirtySevenWheat    15.04
+37  fungicide          97               CutterWheat     0.00
+38  fungicide         104               CutterWheat     0.00
+39  fungicide         111               CutterWheat     0.00
+40  fungicide         118               CutterWheat     0.00
+41  fungicide         125               CutterWheat     0.00
+42  fungicide         132               CutterWheat     0.00
+43  fungicide         139               CutterWheat     1.79
+44  fungicide         146               CutterWheat     2.40
+45  fungicide         154               CutterWheat     6.21
+46  fungicide          97               JaggerWheat     0.00
+47  fungicide         104               JaggerWheat     0.00
+48  fungicide         111               JaggerWheat     0.00
+49  fungicide         118               JaggerWheat     0.00
+50  fungicide         125               JaggerWheat     0.00
+51  fungicide         132               JaggerWheat     0.00
+52  fungicide         139               JaggerWheat     2.27
+53  fungicide         146               JaggerWheat     5.00
+54  fungicide         154               JaggerWheat    20.17</code></pre>
+<p>We’ve gone to the work to tidy up the data; let’s save it to our disk so that we can easily reuse it later.</p>
+<pre class="r"><code>&gt; write_csv(fungicide.tidy, path = &quot;data/FungicideTidy.csv&quot;)</code></pre>
+</div>
+</div>
+<div id="part-v-calculating-audpc-using-tidy-data" class="section level2">
+<h2>Part V: Calculating AUDPC using tidy data</h2>
+<p>The package <em>dplyr</em> is one of the most powerful R packages because it allows you to think about manipulating data in a way that makes sense to humans. Here, I will show you how to calculate AUDPC from the tidy data frame in three steps:</p>
+<ol style="list-style-type: decimal">
+<li>Separate the data into groups by Experiment and Cultivar</li>
+<li>Summarize AUDPC for each group</li>
+<li>Spread the AUDPC data into separate columns by Experiment</li>
+</ol>
+<p>Here, we use the <code>group_by()</code> function to split the rows into specific groups.</p>
+<pre class="r"><code>&gt; tmp &lt;- group_by(fungicide.tidy, Experiment, Cultivar)
+&gt; tmp</code></pre>
+<pre><code>Source: local data frame [54 x 4]
+Groups: Experiment, Cultivar [6]
+
+# A tibble: 54 x 4
+   Experiment Julian.Date                  Cultivar Severity
+        &lt;chr&gt;       &lt;int&gt;                     &lt;chr&gt;    &lt;dbl&gt;
+ 1    control          97 TwentyOneThirtySevenWheat     0.00
+ 2    control         104 TwentyOneThirtySevenWheat     0.00
+ 3    control         111 TwentyOneThirtySevenWheat     0.00
+ 4    control         118 TwentyOneThirtySevenWheat     0.00
+ 5    control         125 TwentyOneThirtySevenWheat     0.00
+ 6    control         132 TwentyOneThirtySevenWheat     0.00
+ 7    control         139 TwentyOneThirtySevenWheat     2.34
+ 8    control         146 TwentyOneThirtySevenWheat     7.56
+ 9    control         154 TwentyOneThirtySevenWheat    28.78
+10    control          97               CutterWheat     0.00
+# ... with 44 more rows</code></pre>
+<p>You can see here that it says “Groups: Experiment, Cultivar [6]”. This indicates that we have six groups, containing the experiment and cultivar pairs.</p>
+<p>Now that we have told <em>dplyr</em> to assign groups, we can use the <em>dplyr</em> function <code>summarize()</code> to summarize the data within the groups with a function that takes in a vector (or multiple vectors) and returns a single value. In our case, this is the AUDPC function.</p>
+<pre class="r"><code>&gt; tmp &lt;- summarize(tmp, AUDPC = audpc(Severity, Julian.Date, type = &quot;relative&quot;))
+&gt; tmp</code></pre>
+<pre><code>Source: local data frame [6 x 3]
+Groups: Experiment [?]
+
+# A tibble: 6 x 3
+  Experiment                  Cultivar       AUDPC
+       &lt;chr&gt;                     &lt;chr&gt;       &lt;dbl&gt;
+1    control               CutterWheat 0.018729825
+2    control               JaggerWheat 0.044633333
+3    control TwentyOneThirtySevenWheat 0.033017544
+4  fungicide               CutterWheat 0.009714035
+5  fungicide               JaggerWheat 0.023521053
+6  fungicide TwentyOneThirtySevenWheat 0.023158772</code></pre>
+<p>Now we see that we have 6 rows and three columns, If we wanted to have each experiment side by side, we can use the <code>spread()</code> function as we saw earlier to spread out our data</p>
+<pre class="r"><code>&gt; fungicide.res &lt;- spread(tmp, Experiment, AUDPC)
+&gt; fungicide.res</code></pre>
+<pre><code># A tibble: 3 x 3
+                   Cultivar    control   fungicide
+*                     &lt;chr&gt;      &lt;dbl&gt;       &lt;dbl&gt;
+1               CutterWheat 0.01872982 0.009714035
+2               JaggerWheat 0.04463333 0.023521053
+3 TwentyOneThirtySevenWheat 0.03301754 0.023158772</code></pre>
+<p>Now we can write this to a table!</p>
+<pre class="r"><code>&gt; write.table(fungicide.res, 
++             file = &quot;results/audpc_tidy.csv&quot;,
++             sep = &quot;,&quot;,
++             row.names = FALSE, 
++             col.names = TRUE)</code></pre>
 </div>
 </div>
 
