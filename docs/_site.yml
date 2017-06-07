@@ -13,6 +13,8 @@ navbar:
           href: Part1-Introduction.html
         - text: "Part 2: First Analysis and Reshaping Data"
           href: Part2-Analysis.html
+        - text: "Part 3: Visualization"
+          href: coming-soon.html
         - text: "Bonus: Visualization with ggplot2"
           href: Part99-ggplot2Visualization.html
     - text: "About"
