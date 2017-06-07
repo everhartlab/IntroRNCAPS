@@ -296,10 +296,10 @@ div.tocify {
       <a href="Part1-Introduction.html">Part 1: Introduction to R</a>
     </li>
     <li>
-      <a href="Part2-Analysis.html">Part 2: First Analysis</a>
+      <a href="Part2-Analysis.html">Part 2: First Analysis and Reshaping Data</a>
     </li>
     <li>
-      <a href="Part3-Visualization.html">Part 3: Reshaping and Visualization</a>
+      <a href="Part99-ggplot2Visualization.html">Bonus: Visualization with ggplot2</a>
     </li>
   </ul>
 </li>
@@ -352,8 +352,8 @@ div.tocify {
 </div>
 
 
-<div id="part-3-data-transformation-and-plotting" class="section level1">
-<h1>Part 3: Data Transformation and Plotting</h1>
+<div id="part-3-plotting-with-ggplot2" class="section level1">
+<h1>Part 3: Plotting with ggplot2</h1>
 <p>So far we have covered:</p>
 <ul>
 <li>data types in R</li>
@@ -362,6 +362,7 @@ div.tocify {
 <li>reading documentation</li>
 <li>using functions</li>
 <li>saving data</li>
+<li>reshaping data</li>
 </ul>
 <p>Of course, we haven’t used one of R’s most powerful assets: graphics. This section is dedicated to creating a plot from the data. While R has very powerful default plotting functions, we will be using the “ggplot2” package for three reasons:</p>
 <ol style="list-style-type: decimal">
@@ -375,23 +376,13 @@ div.tocify {
 <p>After this section, you should have the tools to:</p>
 <ol style="list-style-type: decimal">
 <li>create a simple plot in ggplot2</li>
-<li>reshape data (aka pivot and unpivot)</li>
 <li>save plots</li>
 </ol>
 <p>Again, since this is a three hour workshop, we do not expect mastery, but this at least should give you a starting point. With that in mind, let’s get started!</p>
 </div>
 <div id="packages" class="section level2">
 <h2>Packages</h2>
-<p>For the tasks in this example, we will load the “tidyverse” package. This will load six packages (see <a href="https://tidyverse.tidyverse.org" class="uri">https://tidyverse.tidyverse.org</a>):</p>
-<ul>
-<li>ggplot2, for data visualisation.</li>
-<li>dplyr, for data manipulation.</li>
-<li>tidyr, for data tidying.</li>
-<li>readr, for data import.</li>
-<li>purrr, for functional programming.</li>
-<li>tibble, for tibbles, a modern re-imagining of data frames.</li>
-</ul>
-<p>We will be using the <em>ggplot2</em> and <em>tidyr</em> packages</p>
+<p>We will be using the <em>ggplot2</em> and <em>readr</em> packages, both of which are in the tidyverse.</p>
 <pre class="r"><code>&gt; library(&quot;tidyverse&quot;)</code></pre>
 <pre><code>Loading tidyverse: ggplot2
 Loading tidyverse: tibble
@@ -406,184 +397,15 @@ lag():    dplyr, stats</code></pre>
 <div id="data" class="section level2">
 <h2>Data</h2>
 <p>We will be using the same data as before, but we will introduce a new function for reading in data from the <em>readr</em> package called <code>read_csv()</code>. This avoids conversion of characters (strings) to factors, provides better error messages, and is generally more efficient.</p>
-<pre class="r"><code>&gt; fungicide &lt;- read_csv(&quot;data/FungicideExample.csv&quot;)</code></pre>
+<pre class="r"><code>&gt; fungicide.tidy &lt;- read_csv(&quot;data/FungicideTidy.csv&quot;)</code></pre>
 <pre><code>Parsed with column specification:
 cols(
+  Experiment = col_character(),
   Julian.Date = col_integer(),
-  TwentyOneThirtySevenWheat = col_double(),
-  TwentyOneThirtySevenWheat.trt = col_double(),
-  CutterWheat = col_double(),
-  CutterWheat.Trt = col_double(),
-  JaggerWheat = col_double(),
-  JaggerWheat.Trt = col_double()
+  Cultivar = col_character(),
+  Severity = col_double()
 )</code></pre>
-<pre class="r"><code>&gt; fungicide</code></pre>
-<pre><code># A tibble: 9 x 7
-  Julian.Date TwentyOneThirtySevenWheat TwentyOneThirtySevenWheat.trt
-        &lt;int&gt;                     &lt;dbl&gt;                         &lt;dbl&gt;
-1          97                      0.00                          0.00
-2         104                      0.00                          0.00
-3         111                      0.00                          0.00
-4         118                      0.00                          0.00
-5         125                      0.00                          0.00
-6         132                      0.00                          0.00
-7         139                      2.34                          1.81
-8         146                      7.56                          7.89
-9         154                     28.78                         15.04
-# ... with 4 more variables: CutterWheat &lt;dbl&gt;, CutterWheat.Trt &lt;dbl&gt;,
-#   JaggerWheat &lt;dbl&gt;, JaggerWheat.Trt &lt;dbl&gt;</code></pre>
-<p>Note that this looks slightly different than the data frame we saw earlier. Never fear, this is still a data frame. We can confirm this with <code>is.data.frame()</code>:</p>
-<pre class="r"><code>&gt; is.data.frame(fungicide)</code></pre>
-<pre><code>[1] TRUE</code></pre>
-<p>It’s also a “tibble”, which is a form of data frame that gives more information about your data (e.g. what kind of data the columns are).</p>
-</div>
-<div id="reshaping-data" class="section level2">
-<h2>Reshaping Data</h2>
-<p>At some point in time, you will need to reshape/rearrange data in R. This is a fact of life. Doing this in R is advantageous for three reasons:</p>
-<ol style="list-style-type: decimal">
-<li>your original data is in tact</li>
-<li>you have a trail of self-documenting changes</li>
-<li>your future self will tank you</li>
-</ol>
-<p>In order to use our data with ggplot2, we need to make sure it is in a “tidy” form where we have one observation per row. We currently have six observations per row. Thus, we will need to reshape this data from this:</p>
-<pre><code>  Julian.Date TwentyOneThirtySevenWheat TwentyOneThirtySevenWheat.trt CutterWheat CutterWheat.Trt JaggerWheat JaggerWheat.Trt
-1         139                      2.34                          1.81        1.15            1.79        1.85            2.27
-2         146                      7.56                          7.89        3.62            2.40        6.92            5.00
-3         154                     28.78                         15.04       17.89            6.21       47.39           20.17</code></pre>
-<p>to this:</p>
-<pre><code>  Experiment Julian.Date                  Cultivar Severity
-1    control         139 TwentyOneThirtySevenWheat     2.34
-2    control         146 TwentyOneThirtySevenWheat     7.56
-3    control         154 TwentyOneThirtySevenWheat    28.78
-4    control         139               CutterWheat     1.15
-5    control         146               CutterWheat     3.62
-6    control         154               CutterWheat    17.89
-7    control         139               JaggerWheat     1.85
-8    control         146               JaggerWheat     6.92
-9    control         154               JaggerWheat    47.39
-10 treatment         139 TwentyOneThirtySevenWheat     1.81
-11 treatment         146 TwentyOneThirtySevenWheat     7.89
-12 treatment         154 TwentyOneThirtySevenWheat    15.04
-13 treatment         139               CutterWheat     1.79
-14 treatment         146               CutterWheat     2.40
-15 treatment         154               CutterWheat     6.21
-16 treatment         139               JaggerWheat     2.27
-17 treatment         146               JaggerWheat     5.00
-18 treatment         154               JaggerWheat    20.17</code></pre>
-<pre class="r"><code>&gt; stop(&quot;
-+       Discussion: What are the differences between the two data frames above?
-+       How can we get from one data frame to the other?
-+     &quot;)</code></pre>
-<pre><code>Error in eval(expr, envir, enclos): 
-      Discussion: What are the differences between the two data frames above?
-      How can we get from one data frame to the other?
-    </code></pre>
-<p>There are several ways of creating the tidy data frame; we will show one here, but there are others that we will discuss during the workshop.</p>
-<p>The process we will demonstrate takes three steps:</p>
-<ol style="list-style-type: decimal">
-<li>subset control and treatment data into separate data frames</li>
-<li>collect each record into a single row with the <em>tidyr</em> function <code>gather()</code> (This is also known as “unpivot” in Excel: <a href="http://www.excel-university.com/unpivot-excel-data/" class="uri">http://www.excel-university.com/unpivot-excel-data/</a>).</li>
-<li>combine the two data frames and create a new column called “Experiment” with the <em>dplyr</em> function <code>bind_rows()</code></li>
-</ol>
-<div id="step-1-subset-data" class="section level3">
-<h3>Step 1: Subset data</h3>
-<p>Subset control and treatmend data into separate data frames. Since we have a data frame, we will use matrix-like subsetting.</p>
-<pre class="r"><code>&gt; control   &lt;- fungicide[, c(1, 2, 4, 6)]
-&gt; treatment &lt;- fungicide[, c(1, 3, 5, 7)]</code></pre>
-<p>Now we have two separate data frames with 4 columns each, but still we have three observations per row.</p>
-<pre class="r"><code>&gt; stop(&quot;
-+       Would this approach work for a different data set? Why or why not?
-+      &quot;)</code></pre>
-<pre><code>Error in eval(expr, envir, enclos): 
-      Would this approach work for a different data set? Why or why not?
-     </code></pre>
-</div>
-<div id="step-2-tidy-data" class="section level3">
-<h3>Step 2: Tidy data</h3>
-<p>Now that we have our experiments in separate tables, we can reshape each table into tidy format by using <em>tidyr</em>’s <code>gather()</code>. This will “gather” all of the data that are spread across columns into single rows. Users of excel might be familiar with this operation as “unpivot”.</p>
-<p>In order to do this, we will need to specify three things:</p>
-<ul>
-<li>A new column name to specify where the data came from (key)</li>
-<li>A new column name to specify what the data represents (value)</li>
-<li>The columns to include (or exclude)</li>
-</ul>
-<p>I often find the key/value syntax confusing and have to look at the examples in the help page for <code>gather()</code>.</p>
-<pre class="r"><code>&gt; stop(&quot;
-+       Look at the examples for gather and determine what the names of the
-+       key and value columns should be for our data.
-+       (hint: you can use example(gather) to run them automatically).
-+     &quot;)</code></pre>
-<pre><code>Error in eval(expr, envir, enclos): 
-      Look at the examples for gather and determine what the names of the
-      key and value columns should be for our data.
-      (hint: you can use example(gather) to run them automatically).
-    </code></pre>
-<p>Now that we have our keys and values, we can plug them into <code>gather()</code>.</p>
-<blockquote>
-<p>Note, however, this uses “bare” names (names that are not between quotation marks) to specify columns. This is a feature of the tidyverse to make typing easier, but does not necessarily work outside of the tidyverse.</p>
-</blockquote>
-<p>To avoid typing all of the columns we want to collapse, we’ll simply specify the column that we don’t want to collapse, which is Julian.Date. This is done by placing a minus (-) symbol in front of it.</p>
-<pre class="r"><code>&gt; con.tidy &lt;- gather(data = control, key = Cultivar, value = Severity, -Julian.Date)
-&gt; con.tidy</code></pre>
-<pre><code># A tibble: 27 x 3
-   Julian.Date                  Cultivar Severity
-         &lt;int&gt;                     &lt;chr&gt;    &lt;dbl&gt;
- 1          97 TwentyOneThirtySevenWheat     0.00
- 2         104 TwentyOneThirtySevenWheat     0.00
- 3         111 TwentyOneThirtySevenWheat     0.00
- 4         118 TwentyOneThirtySevenWheat     0.00
- 5         125 TwentyOneThirtySevenWheat     0.00
- 6         132 TwentyOneThirtySevenWheat     0.00
- 7         139 TwentyOneThirtySevenWheat     2.34
- 8         146 TwentyOneThirtySevenWheat     7.56
- 9         154 TwentyOneThirtySevenWheat    28.78
-10          97               CutterWheat     0.00
-# ... with 17 more rows</code></pre>
-<p>Note that we can easily get back our original data by using the <code>spread()</code> function, which is the opposite of <code>gather()</code>:</p>
-<pre class="r"><code>&gt; spread(data = con.tidy, key = Cultivar, value = Severity)</code></pre>
-<pre><code># A tibble: 9 x 4
-  Julian.Date CutterWheat JaggerWheat TwentyOneThirtySevenWheat
-*       &lt;int&gt;       &lt;dbl&gt;       &lt;dbl&gt;                     &lt;dbl&gt;
-1          97        0.00        0.00                      0.00
-2         104        0.00        0.00                      0.00
-3         111        0.00        0.00                      0.00
-4         118        0.00        0.00                      0.00
-5         125        0.00        0.00                      0.00
-6         132        0.00        0.00                      0.00
-7         139        1.15        1.85                      2.34
-8         146        3.62        6.92                      7.56
-9         154       17.89       47.39                     28.78</code></pre>
-<p>This was simply to demonstrate that with tidy data, it’s possible to reshape it in most any way possible.</p>
-<p>Now we can tidy our treatment data. But first, because we want to combine this data with our control, we want to make sure that the values in the “Cultivar” column are the same. Currently we have the following columns in our treatment data.</p>
-<pre class="r"><code>&gt; colnames(treatment)</code></pre>
-<pre><code>[1] &quot;Julian.Date&quot;                   &quot;TwentyOneThirtySevenWheat.trt&quot;
-[3] &quot;CutterWheat.Trt&quot;               &quot;JaggerWheat.Trt&quot;              </code></pre>
-<p>If we take a look at these column names, we can see that they all end in .Trt, except for the second column, which ends in .trt. Because R is case-sensitive, it will see .trt and .Trt as two different things. To avoid this problem, we will simply replace the column names of the treatment to those of the control.</p>
-<pre class="r"><code>&gt; colnames(control)</code></pre>
-<pre><code>[1] &quot;Julian.Date&quot;               &quot;TwentyOneThirtySevenWheat&quot;
-[3] &quot;CutterWheat&quot;               &quot;JaggerWheat&quot;              </code></pre>
-<pre class="r"><code>&gt; colnames(treatment) &lt;- colnames(control)
-&gt; treatment</code></pre>
-<pre><code># A tibble: 9 x 4
-  Julian.Date TwentyOneThirtySevenWheat CutterWheat JaggerWheat
-        &lt;int&gt;                     &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;
-1          97                      0.00        0.00        0.00
-2         104                      0.00        0.00        0.00
-3         111                      0.00        0.00        0.00
-4         118                      0.00        0.00        0.00
-5         125                      0.00        0.00        0.00
-6         132                      0.00        0.00        0.00
-7         139                      1.81        1.79        2.27
-8         146                      7.89        2.40        5.00
-9         154                     15.04        6.21       20.17</code></pre>
-<p>Now we can tidy our treatment data.</p>
-<pre class="r"><code>&gt; trt.tidy &lt;- gather(data = treatment, key = Cultivar, value = Severity, -Julian.Date)</code></pre>
-</div>
-<div id="step-3-combining-experiments" class="section level3">
-<h3>Step 3: combining experiments</h3>
-<p>We can combine the treatments by using the <em>dplyr</em> function <code>bind_rows()</code>, which takes any number of data frames and places them on top of one another. It takes an optional argument, <code>.id</code> (note the “.”) that specifies a separate column to create identifying the source data frame.</p>
-<pre class="r"><code>&gt; fungicide.tidy &lt;- bind_rows(control = con.tidy, fungicide = trt.tidy, .id = &quot;Experiment&quot;)
-&gt; fungicide.tidy</code></pre>
+<pre class="r"><code>&gt; fungicide.tidy</code></pre>
 <pre><code># A tibble: 54 x 4
    Experiment Julian.Date                  Cultivar Severity
         &lt;chr&gt;       &lt;int&gt;                     &lt;chr&gt;    &lt;dbl&gt;
@@ -598,10 +420,6 @@ cols(
  9    control         154 TwentyOneThirtySevenWheat    28.78
 10    control          97               CutterWheat     0.00
 # ... with 44 more rows</code></pre>
-<p>We’ve gone to the work to tidy up the data; let’s save it to our disk so that we can easily reuse it later.</p>
-<pre class="r"><code>&gt; write_csv(fungicide.tidy, path = &quot;data/FungicideTidy.csv&quot;)</code></pre>
-<p>We have our data in a tidy format so we can now use this to create a visualization using ggplot2.</p>
-</div>
 </div>
 <div id="visualizing-data" class="section level2">
 <h2>Visualizing Data</h2>
@@ -643,7 +461,7 @@ cols(
 <pre class="r"><code>&gt; fungicide.plot &lt;- ggplot(data = fungicide.tidy, mapping = aes(x = Julian.Date, y = Severity))</code></pre>
 <p>If everything worked, you should see nothing. This is because ggplot2 returns an R object. This object contains the instructions for creating the visualization. When you print this object, the plot is created:</p>
 <pre class="r"><code>&gt; fungicide.plot</code></pre>
-<p><img src="Part3-Visualization_files/figure-html/unnamed-chunk-17-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="Part99-ggplot2Visualization_files/figure-html/unnamed-chunk-5-1.png" width="100%" style="display: block; margin: auto;" /></p>
 <p>Now you should see a plot with nothing on it where the x and y axes are labeled “Julian.Date” and “Severity”, respectively.</p>
 <p>To break down what the above function did, it first took in the data set <code>fungicide.tidy</code> and then mapped the x and y aesthetics to the Julian.Date and Severity columns. Effectively, this told ggplot how big our canvas needs to be in order to display our data, but currently, it doesn’t know HOW we want to display our data; we need to give it a specific geometry.</p>
 </div>
@@ -655,10 +473,10 @@ cols(
 <p>Note: From here on out, I will be wrapping all commands with parentheses. This allows the result of the assignment to be displayed automatically.</p>
 </blockquote>
 <pre class="r"><code>&gt; (fungicide.plot &lt;- fungicide.plot + geom_line(mapping = aes(color = Cultivar, lty = Experiment)))</code></pre>
-<p><img src="Part3-Visualization_files/figure-html/unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="Part99-ggplot2Visualization_files/figure-html/unnamed-chunk-6-1.png" width="100%" style="display: block; margin: auto;" /></p>
 <p>Now you can see that we not only have lines on our plot displaying the data, but we also have automatic legends. To highlight the time intervals, we can also add points to the plot by using <code>geom_point()</code>. Note that we don’t need to add any aesthetics to these since they are simply reenforcing the lines.</p>
 <pre class="r"><code>&gt; (fungicide.plot &lt;- fungicide.plot + geom_point())</code></pre>
-<p><img src="Part3-Visualization_files/figure-html/unnamed-chunk-19-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="Part99-ggplot2Visualization_files/figure-html/unnamed-chunk-7-1.png" width="100%" style="display: block; margin: auto;" /></p>
 <p>We now have a fully functional and informative plot using only three lines of code! Producing a visualization of your data can be an extremely useful tool for analysis because it can allow you to see if there are any strange patterns or spurious correlations in your variables.</p>
 </div>
 <div id="question" class="section level3">
@@ -676,24 +494,24 @@ cols(
 <p>In contrast to the above section, where layers are added to the plot, we are now manipulating the aesthetics of the plot in how the data and labels are displayed.</p>
 <p>First let’s deal with the fact that this plot is over-crowded. We can separate our data into different “facets” based on a given variable. For example, we can create three plots separated by cultivar by using the <code>facet_wrap()</code> function and giving a formula (which contains a ~):</p>
 <pre class="r"><code>&gt; (fungicide.plot &lt;- fungicide.plot + facet_wrap(~Cultivar))</code></pre>
-<p><img src="Part3-Visualization_files/figure-html/unnamed-chunk-20-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="Part99-ggplot2Visualization_files/figure-html/unnamed-chunk-8-1.png" width="100%" style="display: block; margin: auto;" /></p>
 <p>This is much clearer, but instead of having three panels side by side, we want them in a column. We can specify the number of columns by using <code>ncol</code>. Again, because we are manipulating how the plot is displayed and not adding layers, we can simply re-call this function</p>
 <pre class="r"><code>&gt; (fungicide.plot &lt;- fungicide.plot + facet_wrap(~Cultivar, ncol = 1))</code></pre>
-<p><img src="Part3-Visualization_files/figure-html/unnamed-chunk-21-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="Part99-ggplot2Visualization_files/figure-html/unnamed-chunk-9-1.png" width="100%" style="display: block; margin: auto;" /></p>
 <div id="axis-labels" class="section level3">
 <h3>Axis labels</h3>
 <p>We also need to update the axis labels. This is easily done with <code>xlab()</code> and <code>ylab()</code>:</p>
 <pre class="r"><code>&gt; (fungicide.plot &lt;- fungicide.plot + xlab(&quot;Calendar Date (Julian)&quot;))</code></pre>
-<p><img src="Part3-Visualization_files/figure-html/unnamed-chunk-22-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="Part99-ggplot2Visualization_files/figure-html/unnamed-chunk-10-1.png" width="100%" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>&gt; (fungicide.plot &lt;- fungicide.plot + ylab(&quot;Disease Severity&quot;))</code></pre>
-<p><img src="Part3-Visualization_files/figure-html/unnamed-chunk-22-2.png" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="Part99-ggplot2Visualization_files/figure-html/unnamed-chunk-10-2.png" width="100%" style="display: block; margin: auto;" /></p>
 <p>The labels are now okay, but it’s still not publication-ready. The font is too small, the background should have no gridlines and the axis text needs to be darker.</p>
 </div>
 <div id="adjusting-look-and-feel-theme" class="section level3">
 <h3>Adjusting Look and Feel (theme)</h3>
 <p>The first thing we can do is change the default theme from <code>theme_grey()</code> to <code>theme_bw()</code>. We will simultaneously set the base size of the font to be 16pt.</p>
 <pre class="r"><code>&gt; (fungicide.plot &lt;- fungicide.plot + theme_bw(base_size = 16))</code></pre>
-<p><img src="Part3-Visualization_files/figure-html/unnamed-chunk-23-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="Part99-ggplot2Visualization_files/figure-html/unnamed-chunk-11-1.png" width="100%" style="display: block; margin: auto;" /></p>
 <p>There are many different default themes available for ggplot2 objects that change many aspects of the look and feel. The <em>ggthemes</em> contains many popular themes such as fivethirtyeight and economist. Of course, as it is, the plot is still not ready for publication. For one, the legend is taking up to much horizontal realestate and the size of the plot is cutting off TwentyOneThirtySevenWheat.</p>
 <p>To adjust granular aspects of the theme, we can use the <code>theme()</code> function, which contains a whopping 71 different options all related to the layout of the non-data aspects of the plot.</p>
 <pre class="r"><code>&gt; stop(&quot;
@@ -712,13 +530,13 @@ cols(
       </code></pre>
 <p>When we inspect the help page of the <code>theme()</code> function, we can find out how to adjust several parameters to make out plot look acceptable:</p>
 <pre class="r"><code>&gt; (fungicide.plot &lt;- fungicide.plot + theme(aspect.ratio = 1/3))</code></pre>
-<p><img src="Part3-Visualization_files/figure-html/unnamed-chunk-25-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="Part99-ggplot2Visualization_files/figure-html/unnamed-chunk-13-1.png" width="100%" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>&gt; (fungicide.plot &lt;- fungicide.plot + theme(legend.position = &quot;bottom&quot;))</code></pre>
-<p><img src="Part3-Visualization_files/figure-html/unnamed-chunk-25-2.png" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="Part99-ggplot2Visualization_files/figure-html/unnamed-chunk-13-2.png" width="100%" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>&gt; (fungicide.plot &lt;- fungicide.plot + theme(legend.direction = &quot;vertical&quot;))</code></pre>
-<p><img src="Part3-Visualization_files/figure-html/unnamed-chunk-25-3.png" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="Part99-ggplot2Visualization_files/figure-html/unnamed-chunk-13-3.png" width="100%" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>&gt; (fungicide.plot &lt;- fungicide.plot + theme(panel.grid = element_blank()))</code></pre>
-<p><img src="Part3-Visualization_files/figure-html/unnamed-chunk-25-4.png" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="Part99-ggplot2Visualization_files/figure-html/unnamed-chunk-13-4.png" width="100%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="putting-it-all-together" class="section level3">
 <h3>Putting it all together</h3>
@@ -734,7 +552,7 @@ cols(
 +   xlab(&quot;Calendar Date (Julian)&quot;) +
 +   ylab(&quot;Disease Severity&quot;)
 &gt; fungicide.plot</code></pre>
-<p><img src="Part3-Visualization_files/figure-html/unnamed-chunk-26-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="Part99-ggplot2Visualization_files/figure-html/unnamed-chunk-14-1.png" width="100%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="saving-your-plot" class="section level3">
 <h3>Saving your plot</h3>
