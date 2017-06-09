@@ -44,29 +44,100 @@ CutterWheat.control <- fungicide.tidy.CutterWheat[which(fungicide.tidy.CutterWhe
 JaggerWheat.fungicide <- fungicide.tidy.JaggerWheat[which(fungicide.tidy.JaggerWheat$Experiment == "fungicide"), "Severity"]
 JaggerWheat.control <- fungicide.tidy.JaggerWheat[which(fungicide.tidy.JaggerWheat$Experiment == "control"), "Severity"]
 
-par(mfrow = c(3, 1), mar = c(2, 2, 2, 2), lab = c(5, 5, 7))
+par(mfrow = c(3, 1),
+    mar = c(2, 2, 2, 2),
+    lab = c(5, 5, 7))
 
-plot(TwentyOneThirtySevenWheat.fungicide ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "TwentyOneThirtySevenWheat", 
-     cex.lab = 1.5, cex.main = 2, col = "purple", pch = 25, ylim = c(0, 50))
+plot(
+  TwentyOneThirtySevenWheat.fungicide ~ jdate,
+  xlab = "Julian Date",
+  ylab = "Disease Severity",
+  main = "TwentyOneThirtySevenWheat",
+  cex.lab = 1.5,
+  cex.main = 2,
+  col = "purple",
+  pch = 25,
+  ylim = c(0, 50)
+)
 
-points(TwentyOneThirtySevenWheat.control ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "Control", 
-       cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, ylim = c(0, 50))
-legend("topleft", col = c("purple", "red"), pch = c(25, 24), legend = c("Fungicide", "Control"))
+points(
+  TwentyOneThirtySevenWheat.control ~ jdate,
+  xlab = "Julian Date",
+  ylab = "Disease Severity",
+  main = "Control",
+  cex.lab = 1.5,
+  cex.main = 2,
+  col = "red",
+  pch = 24,
+  ylim = c(0, 50)
+)
+legend(
+  "topleft",
+  col = c("purple", "red"),
+  pch = c(25, 24),
+  legend = c("Fungicide", "Control")
+)
 
 
-plot(CutterWheat.fungicide ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "CutterWheat", 
-     cex.lab = 1.5, cex.main = 2, col = "purple", pch = 25, ylim = c(0, 50))
-points(CutterWheat.control ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "Control", 
-       cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, ylim = c(0, 50))
-legend("topleft", col = c("purple", "red"), pch = c(25, 24), legend = c("Fungicide", "Control"))
+plot(
+  CutterWheat.fungicide ~ jdate,
+  xlab = "Julian Date",
+  ylab = "Disease Severity",
+  main = "CutterWheat",
+  cex.lab = 1.5,
+  cex.main = 2,
+  col = "purple",
+  pch = 25,
+  ylim = c(0, 50)
+)
+points(
+  CutterWheat.control ~ jdate,
+  xlab = "Julian Date",
+  ylab = "Disease Severity",
+  main = "Control",
+  cex.lab = 1.5,
+  cex.main = 2,
+  col = "red",
+  pch = 24,
+  ylim = c(0, 50)
+)
+legend(
+  "topleft",
+  col = c("purple", "red"),
+  pch = c(25, 24),
+  legend = c("Fungicide", "Control")
+)
 
 
 
-plot(JaggerWheat.fungicide ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "JaggerWheat", 
-     cex.lab = 1.5, cex.main = 2, col = "purple", pch = 25, ylim = c(0, 50))
-points(JaggerWheat.control ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "Control", 
-       cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, ylim = c(0, 50))
-legend("topleft", col = c("purple", "red"), pch = c(25, 24), legend = c("Fungicide", "Control"))
+plot(
+  JaggerWheat.fungicide ~ jdate,
+  xlab = "Julian Date",
+  ylab = "Disease Severity",
+  main = "JaggerWheat",
+  cex.lab = 1.5,
+  cex.main = 2,
+  col = "purple",
+  pch = 25,
+  ylim = c(0, 50)
+)
+points(
+  JaggerWheat.control ~ jdate,
+  xlab = "Julian Date",
+  ylab = "Disease Severity",
+  main = "Control",
+  cex.lab = 1.5,
+  cex.main = 2,
+  col = "red",
+  pch = 24,
+  ylim = c(0, 50)
+)
+legend(
+  "topleft",
+  col = c("purple", "red"),
+  pch = c(25, 24),
+  legend = c("Fungicide", "Control")
+)
 
 
 
@@ -75,91 +146,316 @@ legend("topleft", col = c("purple", "red"), pch = c(25, 24), legend = c("Fungici
 # ----------------------------------------------------
 
 
-par(mfrow = c(3, 1), mar = c(2, 2, 2, 2), lab = c(5, 5, 7))
+par(mfrow = c(3, 1),
+    mar = c(2, 2, 2, 2),
+    lab = c(5, 5, 7))
 
 
-plot(TwentyOneThirtySevenWheat.fungicide ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "TwentyOneThirtySevenWheat", 
-     cex.lab = 1.5, cex.main = 2, col = "purple", pch = 25, ylim = c(0, 50), type = "h")
-lines(TwentyOneThirtySevenWheat.control ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "Control", 
-       cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, ylim = c(0, 50), type = "h")
-legend("topleft", col = c("purple", "red"), pch = c(25, 24), legend = c("Fungicide", "Control"))
+plot(
+  TwentyOneThirtySevenWheat.fungicide ~ jdate,
+  xlab = "Julian Date",
+  ylab = "Disease Severity",
+  main = "TwentyOneThirtySevenWheat",
+  cex.lab = 1.5,
+  cex.main = 2,
+  col = "purple",
+  pch = 25,
+  ylim = c(0, 50),
+  type = "h"
+)
+lines(
+  TwentyOneThirtySevenWheat.control ~ jdate,
+  xlab = "Julian Date",
+  ylab = "Disease Severity",
+  main = "Control",
+  cex.lab = 1.5,
+  cex.main = 2,
+  col = "red",
+  pch = 24,
+  ylim = c(0, 50),
+  type = "h"
+)
+legend(
+  "topleft",
+  col = c("purple", "red"),
+  pch = c(25, 24),
+  legend = c("Fungicide", "Control")
+)
 
 
-plot(CutterWheat.fungicide ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "CutterWheat", 
-     cex.lab = 1.5, cex.main = 2, col = "purple", pch = 25, ylim = c(0, 50), type = "h")
-lines(CutterWheat.control ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "Control", 
-       cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, ylim = c(0, 50), type = "h")
-legend("topleft", col = c("purple", "red"), pch = c(25, 24), legend = c("Fungicide", "Control"))
+plot(
+  CutterWheat.fungicide ~ jdate,
+  xlab = "Julian Date",
+  ylab = "Disease Severity",
+  main = "CutterWheat",
+  cex.lab = 1.5,
+  cex.main = 2,
+  col = "purple",
+  pch = 25,
+  ylim = c(0, 50),
+  type = "h"
+)
+lines(
+  CutterWheat.control ~ jdate,
+  xlab = "Julian Date",
+  ylab = "Disease Severity",
+  main = "Control",
+  cex.lab = 1.5,
+  cex.main = 2,
+  col = "red",
+  pch = 24,
+  ylim = c(0, 50),
+  type = "h"
+)
+legend(
+  "topleft",
+  col = c("purple", "red"),
+  pch = c(25, 24),
+  legend = c("Fungicide", "Control")
+)
 
 
 
-plot(JaggerWheat.fungicide ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "JaggerWheat", 
-     cex.lab = 1.5, cex.main = 2, col = "purple", pch = 25, ylim = c(0, 50), type = "h")
-lines(JaggerWheat.control ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "Control", 
-       cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, ylim = c(0, 50), type = "h")
-legend("topleft", col = c("purple", "red"), pch = c(25, 24), legend = c("Fungicide", "Control"))
+plot(
+  JaggerWheat.fungicide ~ jdate,
+  xlab = "Julian Date",
+  ylab = "Disease Severity",
+  main = "JaggerWheat",
+  cex.lab = 1.5,
+  cex.main = 2,
+  col = "purple",
+  pch = 25,
+  ylim = c(0, 50),
+  type = "h"
+)
+lines(
+  JaggerWheat.control ~ jdate,
+  xlab = "Julian Date",
+  ylab = "Disease Severity",
+  main = "Control",
+  cex.lab = 1.5,
+  cex.main = 2,
+  col = "red",
+  pch = 24,
+  ylim = c(0, 50),
+  type = "h"
+)
+legend(
+  "topleft",
+  col = c("purple", "red"),
+  pch = c(25, 24),
+  legend = c("Fungicide", "Control")
+)
 
 
 
 # Change the symbols to lines
-par(mfrow = c(3, 1), mar = c(2, 2, 2, 2), lab = c(5, 5, 7))
+par(mfrow = c(3, 1),
+    mar = c(2, 2, 2, 2),
+    lab = c(5, 5, 7))
 
-plot(TwentyOneThirtySevenWheat.fungicide ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "TwentyOneThirtySevenWheat", 
-     cex.lab = 1.5, cex.main = 2, col = "purple", pch = 25, ylim = c(0, 50), type = "l")
-lines(TwentyOneThirtySevenWheat.control ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "Control", 
-       cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, ylim = c(0, 50), type = "l")
-legend("topleft", col = c("purple", "red"), pch = c(25, 24), legend = c("Fungicide", "Control"))
+plot(
+  TwentyOneThirtySevenWheat.fungicide ~ jdate,
+  xlab = "Julian Date",
+  ylab = "Disease Severity",
+  main = "TwentyOneThirtySevenWheat",
+  cex.lab = 1.5,
+  cex.main = 2,
+  col = "purple",
+  pch = 25,
+  ylim = c(0, 50),
+  type = "l"
+)
+lines(
+  TwentyOneThirtySevenWheat.control ~ jdate,
+  xlab = "Julian Date",
+  ylab = "Disease Severity",
+  main = "Control",
+  cex.lab = 1.5,
+  cex.main = 2,
+  col = "red",
+  pch = 24,
+  ylim = c(0, 50),
+  type = "l"
+)
+legend(
+  "topleft",
+  col = c("purple", "red"),
+  pch = c(25, 24),
+  legend = c("Fungicide", "Control")
+)
 
 
-plot(CutterWheat.fungicide ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "CutterWheat", 
-     cex.lab = 1.5, cex.main = 2, col = "purple", pch = 25, ylim = c(0, 50), type = "l")
-lines(CutterWheat.control ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "Control", 
-       cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, ylim = c(0, 50), type = "l")
-legend("topleft", col = c("purple", "red"), pch = c(25, 24), legend = c("Fungicide", "Control"))
+plot(
+  CutterWheat.fungicide ~ jdate,
+  xlab = "Julian Date",
+  ylab = "Disease Severity",
+  main = "CutterWheat",
+  cex.lab = 1.5,
+  cex.main = 2,
+  col = "purple",
+  pch = 25,
+  ylim = c(0, 50),
+  type = "l"
+)
+lines(
+  CutterWheat.control ~ jdate,
+  xlab = "Julian Date",
+  ylab = "Disease Severity",
+  main = "Control",
+  cex.lab = 1.5,
+  cex.main = 2,
+  col = "red",
+  pch = 24,
+  ylim = c(0, 50),
+  type = "l"
+)
+legend(
+  "topleft",
+  col = c("purple", "red"),
+  pch = c(25, 24),
+  legend = c("Fungicide", "Control")
+)
 
 
 
-plot(JaggerWheat.fungicide ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "JaggerWheat", 
-     cex.lab = 1.5, cex.main = 2, col = "purple", pch = 25, ylim = c(0, 50), type = "l")
-lines(JaggerWheat.control ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "Control", 
-       cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, ylim = c(0, 50), type = "l")
-legend("topleft", col = c("purple", "red"), pch = c(25, 24), legend = c("Fungicide", "Control"))
+plot(
+  JaggerWheat.fungicide ~ jdate,
+  xlab = "Julian Date",
+  ylab = "Disease Severity",
+  main = "JaggerWheat",
+  cex.lab = 1.5,
+  cex.main = 2,
+  col = "purple",
+  pch = 25,
+  ylim = c(0, 50),
+  type = "l"
+)
+lines(
+  JaggerWheat.control ~ jdate,
+  xlab = "Julian Date",
+  ylab = "Disease Severity",
+  main = "Control",
+  cex.lab = 1.5,
+  cex.main = 2,
+  col = "red",
+  pch = 24,
+  ylim = c(0, 50),
+  type = "l"
+)
+legend(
+  "topleft",
+  col = c("purple", "red"),
+  pch = c(25, 24),
+  legend = c("Fungicide", "Control")
+)
 
 
 
 
 # Change the symbols to points and lines
 pdf("results/Disease.Severity.Fungicide.vs.Control.pdf", width = 8)
-  par(mfrow = c(3, 1), mar = c(5, 5, 5, 5), lab = c(5, 5, 7))
-  
-  plot(TwentyOneThirtySevenWheat.fungicide ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "TwentyOneThirtySevenWheat", 
-       cex.lab = 1.5, cex.main = 2, col = "purple", pch = 25, ylim = c(0, 50), type = "b")
-  lines(TwentyOneThirtySevenWheat.control ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "Control", 
-         cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, ylim = c(0, 50), type = "b")
-  legend("topleft", col = c("purple", "red"), pch = c(25, 24), legend = c("Fungicide", "Control"))
-  
-  
-  plot(CutterWheat.fungicide ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "CutterWheat", 
-       cex.lab = 1.5, cex.main = 2, col = "purple", pch = 25, ylim = c(0, 50), type = "b")
-  lines(CutterWheat.control ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "Control", 
-         cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, ylim = c(0, 50), type = "b")
-  legend("topleft", col = c("purple", "red"), pch = c(25, 24), legend = c("Fungicide", "Control"))
-  
-  
-  
-  plot(JaggerWheat.fungicide ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "JaggerWheat", 
-       cex.lab = 1.5, cex.main = 2, col = "purple", pch = 25, ylim = c(0, 50), type = "b")
-  lines(JaggerWheat.control ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "Control", 
-         cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, ylim = c(0, 50), type = "b")
-  legend("topleft", col = c("purple", "red"), pch = c(25, 24), legend = c("Fungicide", "Control"))
+par(mfrow = c(3, 1),
+    mar = c(5, 5, 5, 5),
+    lab = c(5, 5, 7))
+
+plot(
+  TwentyOneThirtySevenWheat.fungicide ~ jdate,
+  xlab = "Julian Date",
+  ylab = "Disease Severity",
+  main = "TwentyOneThirtySevenWheat",
+  cex.lab = 1.5,
+  cex.main = 2,
+  col = "purple",
+  pch = 25,
+  ylim = c(0, 50),
+  type = "b"
+)
+lines(
+  TwentyOneThirtySevenWheat.control ~ jdate,
+  xlab = "Julian Date",
+  ylab = "Disease Severity",
+  main = "Control",
+  cex.lab = 1.5,
+  cex.main = 2,
+  col = "red",
+  pch = 24,
+  ylim = c(0, 50),
+  type = "b"
+)
+legend(
+  "topleft",
+  col = c("purple", "red"),
+  pch = c(25, 24),
+  legend = c("Fungicide", "Control")
+)
+
+
+plot(
+  CutterWheat.fungicide ~ jdate,
+  xlab = "Julian Date",
+  ylab = "Disease Severity",
+  main = "CutterWheat",
+  cex.lab = 1.5,
+  cex.main = 2,
+  col = "purple",
+  pch = 25,
+  ylim = c(0, 50),
+  type = "b"
+)
+lines(
+  CutterWheat.control ~ jdate,
+  xlab = "Julian Date",
+  ylab = "Disease Severity",
+  main = "Control",
+  cex.lab = 1.5,
+  cex.main = 2,
+  col = "red",
+  pch = 24,
+  ylim = c(0, 50),
+  type = "b"
+)
+legend(
+  "topleft",
+  col = c("purple", "red"),
+  pch = c(25, 24),
+  legend = c("Fungicide", "Control")
+)
+
+
+
+plot(
+  JaggerWheat.fungicide ~ jdate,
+  xlab = "Julian Date",
+  ylab = "Disease Severity",
+  main = "JaggerWheat",
+  cex.lab = 1.5,
+  cex.main = 2,
+  col = "purple",
+  pch = 25,
+  ylim = c(0, 50),
+  type = "b"
+)
+lines(
+  JaggerWheat.control ~ jdate,
+  xlab = "Julian Date",
+  ylab = "Disease Severity",
+  main = "Control",
+  cex.lab = 1.5,
+  cex.main = 2,
+  col = "red",
+  pch = 24,
+  ylim = c(0, 50),
+  type = "b"
+)
+legend(
+  "topleft",
+  col = c("purple", "red"),
+  pch = c(25, 24),
+  legend = c("Fungicide", "Control")
+)
 
 dev.off()
 
 # Reset par at the end so that none of the bells and whistles specified in previous graphs are carried foward to the next graph
 par()
-
-
-
-
-
-
