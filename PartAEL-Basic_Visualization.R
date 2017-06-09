@@ -22,15 +22,16 @@ plot(fungicide.tidy$Severity~fungicide.tidy$Julian.Date, xlab = "Julian Date", y
 legend("topleft", col = c("purple", "red"), pch = c(25,24), legend = c("Fungicide", "Control"))
 
 
-########## Show how to have three plots, one for each cultivar
+# Making three plots, one for each cultivar
+# -----------------------------------------
 
-#Sort the data from lowest to highest severity
+# Sort the data from lowest to highest severity
 fungicide.tidy <- fungicide.tidy[order(fungicide.tidy$Severity),]
 
 #Create three separate data sets; one for each cultivar
-fungicide.tidy.TwentyOneThirtySevenWheat <- fungicide.tidy[which( (fungicide.tidy$Cultivar == "TwentyOneThirtySevenWheat" ) | (fungicide.tidy$Cultivar == "TwentyOneThirtySevenWheat.trt" ) ),]
-fungicide.tidy.CutterWheat <- fungicide.tidy[which((fungicide.tidy$Cultivar == "CutterWheat" )|(fungicide.tidy$Cultivar == "CutterWheat.Trt" )),]
-fungicide.tidy.JaggerWheat <- fungicide.tidy[which((fungicide.tidy$Cultivar == "JaggerWheat" )|(fungicide.tidy$Cultivar == "JaggerWheat.Trt" )),]
+fungicide.tidy.TwentyOneThirtySevenWheat <- fungicide.tidy[which(fungicide.tidy$Cultivar == "TwentyOneThirtySevenWheat" ), ]
+fungicide.tidy.CutterWheat <- fungicide.tidy[which(fungicide.tidy$Cultivar == "CutterWheat"), ]
+fungicide.tidy.JaggerWheat <- fungicide.tidy[which(fungicide.tidy$Cultivar == "JaggerWheat"), ]
 
 
 par(mfrow = c(3,1), mar = c(2,2,2,2), lab = c(5,5,7))
