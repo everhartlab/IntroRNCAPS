@@ -33,36 +33,39 @@ fungicide.tidy.TwentyOneThirtySevenWheat <- fungicide.tidy[which(fungicide.tidy$
 fungicide.tidy.CutterWheat <- fungicide.tidy[which(fungicide.tidy$Cultivar == "CutterWheat"), ]
 fungicide.tidy.JaggerWheat <- fungicide.tidy[which(fungicide.tidy$Cultivar == "JaggerWheat"), ]
 
+# Create a vector for the dates
+jdate <- fungicide.tidy.TwentyOneThirtySevenWheat[which(fungicide.tidy.TwentyOneThirtySevenWheat$Experiment == "fungicide"), "Julian.Date"]
+
+# Create vectors for each treatement and cultvar
+TwentyOneThirtySevenWheat.fungicide.y <- fungicide.tidy.TwentyOneThirtySevenWheat[which(fungicide.tidy.TwentyOneThirtySevenWheat$Experiment == "fungicide"), "Severity"]
+TwentyOneThirtySevenWheat.control.y <- fungicide.tidy.TwentyOneThirtySevenWheat[which(fungicide.tidy.TwentyOneThirtySevenWheat$Experiment == "control"), "Severity"]
+CutterWheat.fungicide.y <- fungicide.tidy.CutterWheat[which(fungicide.tidy.CutterWheat$Experiment == "fungicide"), "Severity"]
+CutterWheat.control.y <- fungicide.tidy.CutterWheat[which(fungicide.tidy.CutterWheat$Experiment == "control"), "Severity"]
+JaggerWheat.fungicide.y <- fungicide.tidy.JaggerWheat[which(fungicide.tidy.JaggerWheat$Experiment == "fungicide"), "Severity"]
+JaggerWheat.control.y <- fungicide.tidy.JaggerWheat[which(fungicide.tidy.JaggerWheat$Experiment == "control"), "Severity"]
 
 par(mfrow = c(3, 1), mar = c(2, 2, 2, 2), lab = c(5, 5, 7))
-jdate <- fungicide.tidy.TwentyOneThirtySevenWheat[which(fungicide.tidy.TwentyOneThirtySevenWheat$Experiment == "fungicide"), "Julian.Date"]
-TwentyOneThirtySevenWheat.fungicide.y <- fungicide.tidy.TwentyOneThirtySevenWheat[which(fungicide.tidy.TwentyOneThirtySevenWheat$Experiment == "fungicide"), "Severity"]
-plot(jdate ~ x, xlab = "Julian Date", ylab = "Disease Severity", main = "TwentyOneThirtySevenWheat", 
+
+plot(TwentyOneThirtySevenWheat.fungicide.y ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "TwentyOneThirtySevenWheat", 
      cex.lab = 1.5, cex.main = 2, col = "purple", pch = 25, ylim = c(0, 50))
-jdate <- fungicide.tidy.TwentyOneThirtySevenWheat[which(fungicide.tidy.TwentyOneThirtySevenWheat$Experiment == "control"), "Julian.Date"]
-TwentyOneThirtySevenWheat.control.y <- fungicide.tidy.TwentyOneThirtySevenWheat[which(fungicide.tidy.TwentyOneThirtySevenWheat$Experiment == "control"), "Severity"]
-lines(jdate ~ x, xlab = "Julian Date", ylab = "Disease Severity", main = "Control", 
-     cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, ylim = c(0, 50), type = "p")
+
+points(TwentyOneThirtySevenWheat.control.y ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "Control", 
+       cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, ylim = c(0, 50))
 legend("topleft", col = c("purple", "red"), pch = c(25, 24), legend = c("Fungicide", "Control"))
 
-jdate <- fungicide.tidy.CutterWheat[which(fungicide.tidy.CutterWheat$Experiment == "fungicide"), "Julian.Date"]
-CutterWheat.fungicide.y <- fungicide.tidy.CutterWheat[which(fungicide.tidy.CutterWheat$Experiment == "fungicide"), "Severity"]
-plot(jdate ~ x, xlab = "Julian Date", ylab = "Disease Severity", main = "CutterWheat", 
+
+plot(CutterWheat.fungicide.y ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "CutterWheat", 
      cex.lab = 1.5, cex.main = 2, col = "purple", pch = 25, ylim = c(0, 50))
-jdate <- fungicide.tidy.CutterWheat[which(fungicide.tidy.CutterWheat$Experiment == "control"), "Julian.Date"]
-CutterWheat.control.y <- fungicide.tidy.CutterWheat[which(fungicide.tidy.CutterWheat$Experiment == "control"), "Severity"]
-lines(jdate ~ x, xlab = "Julian Date", ylab = "Disease Severity", main = "Control", 
-      cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, ylim = c(0, 50), type = "p")
+points(CutterWheat.control.y ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "Control", 
+       cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, ylim = c(0, 50))
 legend("topleft", col = c("purple", "red"), pch = c(25, 24), legend = c("Fungicide", "Control"))
 
-jdate <- fungicide.tidy.JaggerWheat[which(fungicide.tidy.JaggerWheat$Experiment == "fungicide"), "Julian.Date"]
-JaggerWheat.fungicide.y <- fungicide.tidy.JaggerWheat[which(fungicide.tidy.JaggerWheat$Experiment == "fungicide"), "Severity"]
-plot(jdate ~ x, xlab = "Julian Date", ylab = "Disease Severity", main = "JaggerWheat", 
+
+
+plot(JaggerWheat.fungicide.y ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "JaggerWheat", 
      cex.lab = 1.5, cex.main = 2, col = "purple", pch = 25, ylim = c(0, 50))
-jdate <- fungicide.tidy.JaggerWheat[which(fungicide.tidy.JaggerWheat$Experiment == "control"), "Julian.Date"]
-JaggerWheat.control.y <- fungicide.tidy.JaggerWheat[which(fungicide.tidy.JaggerWheat$Experiment == "control"), "Severity"]
-lines(jdate ~ x, xlab = "Julian Date", ylab = "Disease Severity", main = "Control", 
-      cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, ylim = c(0, 50), type = "p")
+points(JaggerWheat.control.y ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "Control", 
+       cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, ylim = c(0, 50))
 legend("topleft", col = c("purple", "red"), pch = c(25, 24), legend = c("Fungicide", "Control"))
 
 
@@ -73,103 +76,83 @@ legend("topleft", col = c("purple", "red"), pch = c(25, 24), legend = c("Fungici
 
 
 par(mfrow = c(3, 1), mar = c(2, 2, 2, 2), lab = c(5, 5, 7))
-jdate <- fungicide.tidy.TwentyOneThirtySevenWheat[which(fungicide.tidy.TwentyOneThirtySevenWheat$Experiment == "fungicide"), "Julian.Date"]
-TwentyOneThirtySevenWheat.fungicide.y <- fungicide.tidy.TwentyOneThirtySevenWheat[which(fungicide.tidy.TwentyOneThirtySevenWheat$Experiment == "fungicide"), "Severity"]
 
-plot(jdate ~ x, xlab = "Julian Date", ylab = "Disease Severity", main = "TwentyOneThirtySevenWheat", 
+
+plot(TwentyOneThirtySevenWheat.fungicide.y ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "TwentyOneThirtySevenWheat", 
      cex.lab = 1.5, cex.main = 2, col = "purple", pch = 25, ylim = c(0, 50), type = "h")
-jdate <- fungicide.tidy.TwentyOneThirtySevenWheat[which(fungicide.tidy.TwentyOneThirtySevenWheat$Experiment == "control"), "Julian.Date"]
-TwentyOneThirtySevenWheat.control.y <- fungicide.tidy.TwentyOneThirtySevenWheat[which(fungicide.tidy.TwentyOneThirtySevenWheat$Experiment == "control"), "Severity"]
-lines(jdate ~ x, xlab = "Julian Date", ylab = "Disease Severity", main = "Control", 
-      cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, ylim = c(0, 50), type = "h")
+lines(TwentyOneThirtySevenWheat.control.y ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "Control", 
+       cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, ylim = c(0, 50), type = "h")
 legend("topleft", col = c("purple", "red"), pch = c(25, 24), legend = c("Fungicide", "Control"))
 
-jdate <- fungicide.tidy.CutterWheat[which(fungicide.tidy.CutterWheat$Experiment == "fungicide"), "Julian.Date"]
-CutterWheat.fungicide.y <- fungicide.tidy.CutterWheat[which(fungicide.tidy.CutterWheat$Experiment == "fungicide"), "Severity"]
-plot(jdate ~ x, xlab = "Julian Date", ylab = "Disease Severity", main = "CutterWheat", 
+
+plot(CutterWheat.fungicide.y ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "CutterWheat", 
      cex.lab = 1.5, cex.main = 2, col = "purple", pch = 25, ylim = c(0, 50), type = "h")
-jdate <- fungicide.tidy.CutterWheat[which(fungicide.tidy.CutterWheat$Experiment == "control"), "Julian.Date"]
-CutterWheat.control.y <- fungicide.tidy.CutterWheat[which(fungicide.tidy.CutterWheat$Experiment == "control"), "Severity"]
-lines(jdate ~ x, xlab = "Julian Date", ylab = "Disease Severity", main = "Control", 
-      cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, ylim = c(0, 50), type = "h")
+lines(CutterWheat.control.y ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "Control", 
+       cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, ylim = c(0, 50), type = "h")
 legend("topleft", col = c("purple", "red"), pch = c(25, 24), legend = c("Fungicide", "Control"))
 
-jdate <- fungicide.tidy.JaggerWheat[which(fungicide.tidy.JaggerWheat$Experiment == "fungicide"), "Julian.Date"]
-JaggerWheat.fungicide.y <- fungicide.tidy.JaggerWheat[which(fungicide.tidy.JaggerWheat$Experiment == "fungicide"), "Severity"]
-plot(jdate ~ x, xlab = "Julian Date", ylab = "Disease Severity", main = "JaggerWheat", 
+
+
+plot(JaggerWheat.fungicide.y ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "JaggerWheat", 
      cex.lab = 1.5, cex.main = 2, col = "purple", pch = 25, ylim = c(0, 50), type = "h")
-jdate <- fungicide.tidy.JaggerWheat[which(fungicide.tidy.JaggerWheat$Experiment == "control"), "Julian.Date"]
-JaggerWheat.control.y <- fungicide.tidy.JaggerWheat[which(fungicide.tidy.JaggerWheat$Experiment == "control"), "Severity"]
-lines(jdate ~ x, xlab = "Julian Date", ylab = "Disease Severity", main = "Control", 
-      cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, ylim = c(0, 50), type = "h")
+lines(JaggerWheat.control.y ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "Control", 
+       cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, ylim = c(0, 50), type = "h")
 legend("topleft", col = c("purple", "red"), pch = c(25, 24), legend = c("Fungicide", "Control"))
+
 
 
 # Change the symbols to lines
 par(mfrow = c(3, 1), mar = c(2, 2, 2, 2), lab = c(5, 5, 7))
-jdate <- fungicide.tidy.TwentyOneThirtySevenWheat[which(fungicide.tidy.TwentyOneThirtySevenWheat$Experiment == "fungicide"), "Julian.Date"]
-TwentyOneThirtySevenWheat.fungicide.y <- fungicide.tidy.TwentyOneThirtySevenWheat[which(fungicide.tidy.TwentyOneThirtySevenWheat$Experiment == "fungicide"), "Severity"]
-plot(jdate ~ x, xlab = "Julian Date", ylab = "Disease Severity", main = "TwentyOneThirtySevenWheat", 
+
+plot(TwentyOneThirtySevenWheat.fungicide.y ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "TwentyOneThirtySevenWheat", 
      cex.lab = 1.5, cex.main = 2, col = "purple", pch = 25, ylim = c(0, 50), type = "l")
-jdate <- fungicide.tidy.TwentyOneThirtySevenWheat[which(fungicide.tidy.TwentyOneThirtySevenWheat$Experiment == "control"), "Julian.Date"]
-TwentyOneThirtySevenWheat.control.y <- fungicide.tidy.TwentyOneThirtySevenWheat[which(fungicide.tidy.TwentyOneThirtySevenWheat$Experiment == "control"), "Severity"]
-lines(jdate ~ x, xlab = "Julian Date", ylab = "Disease Severity", main = "Control", 
-      cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, ylim = c(0, 50), type = "l")
+lines(TwentyOneThirtySevenWheat.control.y ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "Control", 
+       cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, ylim = c(0, 50), type = "l")
 legend("topleft", col = c("purple", "red"), pch = c(25, 24), legend = c("Fungicide", "Control"))
 
-jdate <- fungicide.tidy.CutterWheat[which(fungicide.tidy.CutterWheat$Experiment == "fungicide"), "Julian.Date"]
-CutterWheat.fungicide.y <- fungicide.tidy.CutterWheat[which(fungicide.tidy.CutterWheat$Experiment == "fungicide"), "Severity"]
-plot(jdate ~ x, xlab = "Julian Date", ylab = "Disease Severity", main = "CutterWheat", 
+
+plot(CutterWheat.fungicide.y ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "CutterWheat", 
      cex.lab = 1.5, cex.main = 2, col = "purple", pch = 25, ylim = c(0, 50), type = "l")
-jdate <- fungicide.tidy.CutterWheat[which(fungicide.tidy.CutterWheat$Experiment == "control"), "Julian.Date"]
-CutterWheat.control.y <- fungicide.tidy.CutterWheat[which(fungicide.tidy.CutterWheat$Experiment == "control"), "Severity"]
-lines(jdate ~ x, xlab = "Julian Date", ylab = "Disease Severity", main = "Control", 
-      cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, ylim = c(0, 50), type = "l")
+lines(CutterWheat.control.y ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "Control", 
+       cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, ylim = c(0, 50), type = "l")
 legend("topleft", col = c("purple", "red"), pch = c(25, 24), legend = c("Fungicide", "Control"))
 
-jdate <- fungicide.tidy.JaggerWheat[which(fungicide.tidy.JaggerWheat$Experiment == "fungicide"), "Julian.Date"]
-JaggerWheat.fungicide.y <- fungicide.tidy.JaggerWheat[which(fungicide.tidy.JaggerWheat$Experiment == "fungicide"), "Severity"]
-plot(jdate ~ x, xlab = "Julian Date", ylab = "Disease Severity", main = "JaggerWheat", 
+
+
+plot(JaggerWheat.fungicide.y ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "JaggerWheat", 
      cex.lab = 1.5, cex.main = 2, col = "purple", pch = 25, ylim = c(0, 50), type = "l")
-jdate <- fungicide.tidy.JaggerWheat[which(fungicide.tidy.JaggerWheat$Experiment == "control"), "Julian.Date"]
-JaggerWheat.control.y <- fungicide.tidy.JaggerWheat[which(fungicide.tidy.JaggerWheat$Experiment == "control"), "Severity"]
-lines(jdate ~ x, xlab = "Julian Date", ylab = "Disease Severity", main = "Control", 
-      cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, ylim = c(0, 50), type = "l")
+lines(JaggerWheat.control.y ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "Control", 
+       cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, ylim = c(0, 50), type = "l")
 legend("topleft", col = c("purple", "red"), pch = c(25, 24), legend = c("Fungicide", "Control"))
+
+
 
 
 # Change the symbols to points and lines
 pdf("results/Disease.Severity.Fungicide.vs.Control.pdf", width = 8)
   par(mfrow = c(3, 1), mar = c(5, 5, 5, 5), lab = c(5, 5, 7))
-  TwentyOneThirtySevenWheat.fungicide, "Julian.Date"]
-  TwentyOneThirtySevenWheat.fungicide.y <- fungicide.tidy.TwentyOneThirtySevenWheat[which(fungicide.tidy.TwentyOneThirtySevenWheat$Experiment == "fungicide"), "Severity"]
-  plot(jdate ~ x, xlab = "Julian Date", ylab = "Disease Severity", main = "TwentyOneThirtySevenWheat", 
+  
+  plot(TwentyOneThirtySevenWheat.fungicide.y ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "TwentyOneThirtySevenWheat", 
        cex.lab = 1.5, cex.main = 2, col = "purple", pch = 25, ylim = c(0, 50), type = "b")
-  jdate <- fungicide.tidy.TwentyOneThirtySevenWheat[which(fungicide.tidy.TwentyOneThirtySevenWheat$Experiment == "control"), "Julian.Date"]
-  TwentyOneThirtySevenWheat.control.y <- fungicide.tidy.TwentyOneThirtySevenWheat[which(fungicide.tidy.TwentyOneThirtySevenWheat$Experiment == "control"), "Severity"]
-  lines(jdate ~ x, xlab = "Julian Date", ylab = "Disease Severity", main = "Control", 
-        cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, ylim = c(0, 50), type = "b")
+  lines(TwentyOneThirtySevenWheat.control.y ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "Control", 
+         cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, ylim = c(0, 50), type = "b")
   legend("topleft", col = c("purple", "red"), pch = c(25, 24), legend = c("Fungicide", "Control"))
   
-  jdate <- fungicide.tidy.CutterWheat[which(fungicide.tidy.CutterWheat$Experiment == "fungicide"), "Julian.Date"]
-  CutterWheat.fungicide.y <- fungicide.tidy.CutterWheat[which(fungicide.tidy.CutterWheat$Experiment == "fungicide"), "Severity"]
-  plot(jdate ~ x, xlab = "Julian Date", ylab = "Disease Severity", main = "CutterWheat", 
+  
+  plot(CutterWheat.fungicide.y ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "CutterWheat", 
        cex.lab = 1.5, cex.main = 2, col = "purple", pch = 25, ylim = c(0, 50), type = "b")
-  jdate <- fungicide.tidy.CutterWheat[which(fungicide.tidy.CutterWheat$Experiment == "control"), "Julian.Date"]
-  CutterWheat.control.y <- fungicide.tidy.CutterWheat[which(fungicide.tidy.CutterWheat$Experiment == "control"), "Severity"]
-  lines(jdate ~ x, xlab = "Julian Date", ylab = "Disease Severity", main = "Control", 
-        cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, ylim = c(0, 50), type = "b")
+  lines(CutterWheat.control.y ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "Control", 
+         cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, ylim = c(0, 50), type = "b")
   legend("topleft", col = c("purple", "red"), pch = c(25, 24), legend = c("Fungicide", "Control"))
   
-  jdate <- fungicide.tidy.JaggerWheat[which(fungicide.tidy.JaggerWheat$Experiment == "fungicide"), "Julian.Date"]
-  JaggerWheat.fungicide.y <- fungicide.tidy.JaggerWheat[which(fungicide.tidy.JaggerWheat$Experiment == "fungicide"), "Severity"]
-  plot(jdate ~ x, xlab = "Julian Date", ylab = "Disease Severity", main = "JaggerWheat", 
+  
+  
+  plot(JaggerWheat.fungicide.y ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "JaggerWheat", 
        cex.lab = 1.5, cex.main = 2, col = "purple", pch = 25, ylim = c(0, 50), type = "b")
-  jdate <- fungicide.tidy.JaggerWheat[which(fungicide.tidy.JaggerWheat$Experiment == "control"), "Julian.Date"]
-  JaggerWheat.control.y <- fungicide.tidy.JaggerWheat[which(fungicide.tidy.JaggerWheat$Experiment == "control"), "Severity"]
-  lines(jdate ~ x, xlab = "Julian Date", ylab = "Disease Severity", main = "Control", 
-        cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, ylim = c(0, 50), type = "b")
+  lines(JaggerWheat.control.y ~ jdate, xlab = "Julian Date", ylab = "Disease Severity", main = "Control", 
+         cex.lab = 1.5, cex.main = 2, col = "red", pch = 24, ylim = c(0, 50), type = "b")
   legend("topleft", col = c("purple", "red"), pch = c(25, 24), legend = c("Fungicide", "Control"))
+
 dev.off()
 
 # Reset par at the end so that none of the bells and whistles specified in previous graphs are carried foward to the next graph
