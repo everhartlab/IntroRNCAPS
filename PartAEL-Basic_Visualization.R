@@ -25,9 +25,6 @@ legend("topleft", col = c("purple", "red"), pch = c(25, 24), legend = c("Fungici
 # Making three plots, one for each cultivar
 # -----------------------------------------
 
-# Sort the data from lowest to highest severity
-fungicide.tidy <- fungicide.tidy[order(fungicide.tidy$Severity), ]
-
 # Create three separate data sets; one for each cultivar
 fungicide.tidy.TwentyOneThirtySevenWheat <- fungicide.tidy[which(fungicide.tidy$Cultivar == "TwentyOneThirtySevenWheat" ), ]
 fungicide.tidy.CutterWheat <- fungicide.tidy[which(fungicide.tidy$Cultivar == "CutterWheat"), ]

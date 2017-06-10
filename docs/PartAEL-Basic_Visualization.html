@@ -378,8 +378,6 @@ div.tocify {
 <p><img src="PartAEL-Basic_Visualization_files/figure-html/unnamed-chunk-4-1.png" width="100%" style="display: block; margin: auto;" /></p>
 <div id="making-three-plots-one-for-each-cultivar" class="section level2">
 <h2>Making three plots, one for each cultivar</h2>
-<p>Sort the data from lowest to highest severity</p>
-<pre class="r"><code>&gt; fungicide.tidy &lt;- fungicide.tidy[order(fungicide.tidy$Severity), ]</code></pre>
 <p>Create three separate data sets; one for each cultivar</p>
 <pre class="r"><code>&gt; fungicide.tidy.TwentyOneThirtySevenWheat &lt;- fungicide.tidy[which(fungicide.tidy$Cultivar == &quot;TwentyOneThirtySevenWheat&quot; ), ]
 &gt; fungicide.tidy.CutterWheat &lt;- fungicide.tidy[which(fungicide.tidy$Cultivar == &quot;CutterWheat&quot;), ]
@@ -488,7 +486,7 @@ div.tocify {
 +   pch = c(25, 24),
 +   legend = c(&quot;Fungicide&quot;, &quot;Control&quot;)
 + )</code></pre>
-<p><img src="PartAEL-Basic_Visualization_files/figure-html/unnamed-chunk-8-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="PartAEL-Basic_Visualization_files/figure-html/unnamed-chunk-7-1.png" width="100%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="change-the-symbols-so-that-they-are-histogram-like" class="section level2">
 <h2>Change the symbols so that they are “histogram-like”</h2>
@@ -592,7 +590,7 @@ div.tocify {
 +   pch = c(25, 24),
 +   legend = c(&quot;Fungicide&quot;, &quot;Control&quot;)
 + )</code></pre>
-<p><img src="PartAEL-Basic_Visualization_files/figure-html/unnamed-chunk-9-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="PartAEL-Basic_Visualization_files/figure-html/unnamed-chunk-8-1.png" width="100%" style="display: block; margin: auto;" /></p>
 <p>Change the symbols to lines</p>
 <pre class="r"><code>&gt; par(mfrow = c(3, 1),
 +     mar = c(2, 2, 2, 2),
@@ -693,7 +691,7 @@ div.tocify {
 +   pch = c(25, 24),
 +   legend = c(&quot;Fungicide&quot;, &quot;Control&quot;)
 + )</code></pre>
-<p><img src="PartAEL-Basic_Visualization_files/figure-html/unnamed-chunk-10-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="PartAEL-Basic_Visualization_files/figure-html/unnamed-chunk-9-1.png" width="100%" style="display: block; margin: auto;" /></p>
 <p>Change the symbols to points and lines</p>
 <pre class="r"><code>&gt; pdf(&quot;results/Disease.Severity.Fungicide.vs.Control.pdf&quot;, width = 8)
 &gt; par(mfrow = c(3, 1),
